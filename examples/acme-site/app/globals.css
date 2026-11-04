@@ -1,0 +1,255 @@
+@import 'tailwindcss';
+@import '@cms/site-kit/styles.css';
+
+@source '../../../packages/site-kit/src';
+
+/*
+ * Acme Studio. Warm paper, deep ink, and one accent that comes from the CMS
+ * (site.accent → --accent on <html>), so a client changing their brand colour in
+ * the CMS re-skins the site without a deploy.
+ */
+
+:root {
+  --paper: #f2efe8;
+  --paper-2: #e9e5db;
+  --ink: #0e0e0c;
+  --ink-2: #3a3935;
+  --mute: #7a776f;
+  --rule: #d9d4c7;
+  --accent: #ff5b2e;
+  --accent-ink: #0e0e0c;
+}
+
+@theme inline {
+  --color-paper: var(--paper);
+  --color-paper-2: var(--paper-2);
+  --color-ink: var(--ink);
+  --color-ink-2: var(--ink-2);
+  --color-mute: var(--mute);
+  --color-rule: var(--rule);
+  --color-accent: var(--accent);
+  --color-accent-ink: var(--accent-ink);
+  --font-display: var(--font-cabinet), ui-sans-serif, system-ui, sans-serif;
+  --font-sans: var(--font-cabinet), ui-sans-serif, system-ui, sans-serif;
+  --font-read: var(--font-newsreader), Georgia, serif;
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --animate-marquee: marquee 38s linear infinite;
+}
+
+@keyframes marquee {
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@layer base {
+  html {
+    background: var(--paper);
+    color: var(--ink);
+    -webkit-font-smoothing: antialiased;
+  }
+  html.lenis,
+  html.lenis body {
+    height: auto;
+  }
+  .lenis.lenis-smooth {
+    scroll-behavior: auto !important;
+  }
+  body {
+    font-family: var(--font-sans);
+  }
+  ::selection {
+    background: var(--accent);
+    color: var(--accent-ink);
+  }
+  :focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 3px;
+    border-radius: 6px;
+  }
+}
+
+@layer components {
+  .grain::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.22;
+    mix-blend-mode: overlay;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 0.9 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+  }
+
+  /* Long-form reading. Newsreader for text, Cabinet for headings. */
+  .prose-post {
+    font-family: var(--font-read);
+    font-size: clamp(1.125rem, 1.05rem + 0.3vw, 1.3rem);
+    line-height: 1.68;
+    color: var(--ink-2);
+  }
+  .prose-post > * + * {
+    margin-top: 1.15em;
+  }
+  .prose-post h2,
+  .prose-post h3,
+  .prose-post h4,
+  .prose-post h5,
+  .prose-post h6 {
+    font-family: var(--font-display);
+    color: var(--ink);
+    letter-spacing: -0.025em;
+    line-height: 1.08;
+    font-weight: 700;
+  }
+  .prose-post h2 {
+    font-size: clamp(1.75rem, 1.4rem + 1.3vw, 2.5rem);
+    margin-top: 2em;
+  }
+  .prose-post h3 {
+    font-size: 1.45em;
+    margin-top: 1.8em;
+  }
+  .prose-post h4,
+  .prose-post h5,
+  .prose-post h6 {
+    font-size: 1.15em;
+    margin-top: 1.6em;
+  }
+  .prose-post strong {
+    color: var(--ink);
+    font-weight: 600;
+  }
+  .prose-post a {
+    color: var(--ink);
+    text-decoration: underline;
+    text-decoration-color: var(--accent);
+    text-decoration-thickness: 2px;
+    text-underline-offset: 4px;
+    transition: text-decoration-color 200ms;
+  }
+  .prose-post a:hover {
+    text-decoration-color: var(--ink);
+  }
+  .prose-post a[data-button] {
+    display: inline-block;
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 0.85em;
+    text-decoration: none;
+    background: var(--ink);
+    color: var(--paper);
+    padding: 0.65em 1.4em;
+    border-radius: 999px;
+  }
+  .prose-post a[data-button='outline'] {
+    background: transparent;
+    color: var(--ink);
+    box-shadow: inset 0 0 0 1.5px var(--ink);
+  }
+  .prose-post ul,
+  .prose-post ol {
+    padding-left: 1.3em;
+  }
+  .prose-post ul {
+    list-style: none;
+  }
+  .prose-post ul > li {
+    position: relative;
+  }
+  .prose-post ul > li::before {
+    content: '';
+    position: absolute;
+    left: -1.05em;
+    top: 0.72em;
+    width: 0.42em;
+    height: 0.42em;
+    border-radius: 999px;
+    background: var(--accent);
+  }
+  .prose-post ol {
+    list-style: decimal;
+  }
+  .prose-post ol > li::marker {
+    font-family: var(--font-display);
+    font-weight: 700;
+    color: var(--accent);
+  }
+  .prose-post li + li {
+    margin-top: 0.4em;
+  }
+  .prose-post blockquote {
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-size: clamp(1.5rem, 1.2rem + 1.2vw, 2.25rem);
+    line-height: 1.15;
+    letter-spacing: -0.025em;
+    color: var(--ink);
+    padding-left: 0.9em;
+    border-left: 4px solid var(--accent);
+    margin-block: 1.6em;
+  }
+  .prose-post code {
+    font-size: 0.85em;
+    background: var(--paper-2);
+    padding: 0.12em 0.4em;
+    border-radius: 6px;
+  }
+  .prose-post pre {
+    background: var(--ink);
+    color: var(--paper);
+    padding: 1.2em 1.4em;
+    border-radius: 18px;
+    overflow-x: auto;
+    font-size: 0.82em;
+  }
+  .prose-post pre code {
+    background: none;
+    padding: 0;
+  }
+  .prose-post hr {
+    border: 0;
+    height: 1px;
+    background: var(--rule);
+    margin-block: 2.6em;
+  }
+  .prose-post img {
+    border-radius: 18px;
+    width: 100%;
+  }
+  .prose-post table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: var(--font-display);
+    font-size: 0.82em;
+  }
+  .prose-post th,
+  .prose-post td {
+    padding: 0.7em 0.9em;
+    border-bottom: 1px solid var(--rule);
+    text-align: left;
+    vertical-align: top;
+  }
+  .prose-post th {
+    color: var(--ink);
+    font-weight: 700;
+    border-bottom: 2px solid var(--ink);
+  }
+  .prose-post > p:first-child::first-letter {
+    font-family: var(--font-display);
+    font-weight: 800;
+    float: left;
+    font-size: 3.6em;
+    line-height: 0.8;
+    padding: 0.08em 0.1em 0 0;
+    color: var(--ink);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
