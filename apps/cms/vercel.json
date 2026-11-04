@@ -1,0 +1,14 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "services": {
+    "cms": {
+      "root": "apps/cms",
+      "framework": "nextjs"
+    },
+    "site-kit": {
+      "root": "packages/site-kit",
+      "framework": "nextjs"
+    }
+  },
+  "rewrites": []
+}
