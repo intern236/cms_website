@@ -42,7 +42,7 @@ export function cloudinaryConfiguredForBrowser(): boolean {
 }
 
 function base(publicId: string, transform: string): string {
-  return `https://res.cloudinary.com/${CLOUD_NAME}/image/upload/${transform}/${publicId}`
+  return `https://res.cloudinary.com/${CLOUD_NAME}/image/upload/${transform}/v1/${publicId}`
 }
 
 /** One cover URL at a given width — the `src`, and what a browser without
